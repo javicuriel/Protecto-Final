@@ -224,11 +224,8 @@ void AVLTree<T>::remove(T value){
     NodoB<T> * node = this->search(value);
 
     if(node){
-
-
         NodoB<T> * parent = node->getPadre();
         NodoB<T> * nnode = getMaxMin(node);
-
         if(nnode){
             nnode->setDerecho(node->getDerecho());
             if(nnode->getDerecho())
@@ -244,9 +241,6 @@ void AVLTree<T>::remove(T value){
             else{
                 nnode->setIzquierdo(node->getIzquierdo());
             }
-
-
-
         }
 
         if(!node->getPadre()){
@@ -279,7 +273,8 @@ void AVLTree<T>::remove(T value){
             rl_rotation(parent->getDerecho());
             //        std::cout<<"RL"<<std::endl;
         }
-        parent =  parent->getPadre();
+        if(parent)
+            parent =  parent->getPadre();
 
 
         if(this->getBalanceFactor(nnode) == -2 && this->getBalanceFactor(nnode->getIzquierdo()) == -1){

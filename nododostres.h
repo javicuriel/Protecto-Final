@@ -67,6 +67,8 @@ public:
   void encontrado(bool x){
       enc = x;
   }
+
+
 //    QList<Edge<T> *> edges() const{
 //        return edgeList;
 //    }

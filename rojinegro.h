@@ -240,6 +240,7 @@ void Rojinegro<T>::RBinsert(NodoB<T> * nodo)
   verificar(this->getRoot());
   this->bfs();
   this->scene->addItem(nodo);
+  this->scene->update();
 
 }
 
@@ -334,7 +335,10 @@ void Rojinegro<T>::RBdelete(T valor)
   if (nodo->getPadre() == NULL)
   {
     this->setRoot(hijo);
-    hijo->setIndex(1);
+      if(hijo){
+          hijo->setColor("negro");
+          hijo->setIndex(1);
+      }
   }
   else
   {
@@ -350,6 +354,7 @@ void Rojinegro<T>::RBdelete(T valor)
   nodo->borrar(this->scene);
   this->bfs();
   verificar(this->getRoot());
+  this->scene->update();
 }
 
 template <class T>

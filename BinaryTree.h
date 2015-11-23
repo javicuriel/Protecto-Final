@@ -375,70 +375,72 @@ void BinaryTree<T>::bfs() {
     qreal yInicial = 0.0;
 
     cola.push_back(this->root);
+    if(cola[0]){
+        while(!cola.empty()){
+            NodoB<T> * temp = cola[0];
+            xInicial = temp->getX();
+            yInicial = temp->getY();
 
-    while(!cola.empty()){
-        NodoB<T> * temp = cola[0];
-        xInicial = temp->getX();
-        yInicial = temp->getY();
+            temp->borrarEdges(this->scene);
+            nivel = this->getLevel(temp);//se obtiene el nivel del nodo
+            index = temp->getIndex();//se obtiene el indice del nodo
 
-        temp->borrarEdges(this->scene);
-        nivel = this->getLevel(temp);//se obtiene el nivel del nodo
-        index = temp->getIndex();//se obtiene el indice del nodo
+            //parte de arriba de la formula para obtener la posicion en x.
+            //index * widthOfWindow
 
-        //parte de arriba de la formula para obtener la posicion en x.
-        //index * widthOfWindow
+            qreal numerador = index * (this->scene->width()+100);
 
-        qreal numerador = index * (this->scene->width()+100);
+            //parte de abajo de la formula para obtener la posicion en x.
+            //(2^nivel) + 1
+            qreal denominador = pow(2.0, double(nivel)) + 1;
+            //division de la parte de arriba entre la de abajo para obtener
+            //la posicion en x que va a llevar el nodo
+            qreal x = numerador / denominador;
 
-        //parte de abajo de la formula para obtener la posicion en x.
-        //(2^nivel) + 1
-        qreal denominador = pow(2.0, double(nivel)) + 1;
-        //division de la parte de arriba entre la de abajo para obtener
-        //la posicion en x que va a llevar el nodo
-        qreal x = numerador / denominador;
+            //altura que va a llevar el nodo
+            qreal y = 0.0;
 
-        //altura que va a llevar el nodo
-        qreal y = 0.0;
+            //cuando existe un padre entra al if
+            if (temp->getPadre() != NULL){
+                //temp->getPadre()->borrarEdges();
+                //se toma la altura del padre
+                qreal altura = temp->getPadre()->getY();
+                //se le suma 50 a la altura anterior y se le asigna al nodo
+                y = altura + 50;
+                this->scene->addItem(new Edge<T>(temp, temp->getPadre()));
+            }
 
-        //cuando existe un padre entra al if
-        if (temp->getPadre() != NULL){
-            //temp->getPadre()->borrarEdges();
-            //se toma la altura del padre
-            qreal altura = temp->getPadre()->getY();
-            //se le suma 50 a la altura anterior y se le asigna al nodo
-            y = altura + 50;
-            this->scene->addItem(new Edge<T>(temp, temp->getPadre()));
+            //se asignan las coordenadas del nodo para que se dibuje correctamente
+            temp->setCoordinates(x,y);
+
+            animacionMov(xInicial, yInicial, x, y, temp);
+
+            cola.erase(cola.begin());
+
+            if(temp->getIzquierdo()!= NULL){
+                //temp->getIzquierdo()->borrarEdges();
+                cola.push_back(temp->getIzquierdo());
+                //se agarra el index del padre
+                int index = temp->getIndex();
+                //se calcula y se asigna el index que le corresponde al nodo izquierdo
+                temp->getIzquierdo()->setIndex((index * 2) - 1);
+
+
+            }
+            if(temp->getDerecho()!= NULL){
+                //temp->getDerecho()->borrarEdges();
+                cola.push_back(temp->getDerecho());
+                //se agarra el index del padre
+                int index = temp->getIndex();
+                //se calcula y se asigna el index que le corresponde al nodo derecho
+                temp->getDerecho()->setIndex(index * 2);
+
+            }
+
+
         }
-
-        //se asignan las coordenadas del nodo para que se dibuje correctamente
-        temp->setCoordinates(x,y);
-
-        animacionMov(xInicial, yInicial, x, y, temp);
-
-        cola.erase(cola.begin());
-
-        if(temp->getIzquierdo()!= NULL){
-            //temp->getIzquierdo()->borrarEdges();
-            cola.push_back(temp->getIzquierdo());
-            //se agarra el index del padre
-            int index = temp->getIndex();
-            //se calcula y se asigna el index que le corresponde al nodo izquierdo
-            temp->getIzquierdo()->setIndex((index * 2) - 1);
-
-
-        }
-        if(temp->getDerecho()!= NULL){
-            //temp->getDerecho()->borrarEdges();
-            cola.push_back(temp->getDerecho());
-            //se agarra el index del padre
-            int index = temp->getIndex();
-            //se calcula y se asigna el index que le corresponde al nodo derecho
-            temp->getDerecho()->setIndex(index * 2);
-
-        }
-
-
     }
+
 
 }
 

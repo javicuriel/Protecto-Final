@@ -17,7 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->insNum->installEventFilter(this);
     ui->borrarNum->installEventFilter(this);
     ui->buscNum->installEventFilter(this);
-    ui->graphicsView->showMaximized();
+    ui->boxArchivo->installEventFilter(this);
+    //ui->graphicsView->showMaximized();
     avl = new AVLTree<int>();
     avl->setScene(scene);
     rojinegro = new Rojinegro<int>();
@@ -84,7 +85,8 @@ void MainWindow::deleteNode(){
             break;
         case 3:
             //2/3
-            //dostres->remove(num);
+            dosTres->borrar(num);
+            dosTres->bfs();
             break;
         }
     }
@@ -159,6 +161,16 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
             return QMainWindow::eventFilter(object, event);
         }
     }
+    else if (object == ui->boxArchivo && event->type() == QEvent::KeyPress){
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if (keyEvent->key() == Qt::Key_Return){
+            leerArchivo();
+            return true;
+        }
+        else{
+            return QMainWindow::eventFilter(object, event);
+        }
+    }
     else{
         return QMainWindow::eventFilter(object, event);
     }
@@ -179,7 +191,6 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
     switch (currentArbol){
     case 1:
         avl->clear();
-
         scene->clear();
 
 
@@ -187,7 +198,6 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
     case 2:
         //Rojinegro
         rojinegro->clear();
-
         scene->clear();
 
 
@@ -205,8 +215,7 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
     std::cout << index << endl;
 }
 
-void MainWindow::on_botonLeer_clicked()
-{
+void MainWindow::leerArchivo(){
     QDir directorio;
     QString dir = directorio.homePath();
     std::string home = dir.toStdString();
@@ -252,5 +261,55 @@ void MainWindow::on_botonLeer_clicked()
         break;
     }
     }
+}
+
+void MainWindow::on_botonLeer_clicked()
+{
+    leerArchivo();
+//    QDir directorio;
+//    QString dir = directorio.homePath();
+//    std::string home = dir.toStdString();
+
+//    QString nomArchivo = ui->boxArchivo->toPlainText();
+//    std::string nombreArchivo = nomArchivo.toStdString();
+
+//    std::string ruta = "";
+
+//    if (nombreArchivo.rfind(".txt") != -1) {
+//        ruta = home + "/Desktop/" + nombreArchivo;
+//    }
+//    else {
+//        ruta = home + "/Desktop/" + nombreArchivo + ".txt";
+//    }
+
+//    LectorArchivos lector;
+//    std::vector<int> datos = lector.leer(ruta);
+
+//    switch (currentArbol){
+//    case 1:{
+//        // Avl
+//        for(int i = 0; i < datos.size(); i++){
+//            NodoB<int> *nuevo = new NodoB<int>(datos[i]);
+//            avl->insert(nuevo);
+//        }
+//        break;
+//    }
+//    case 2:{
+//        //Rojinegro
+//        for(int i = 0; i < datos.size(); i++){
+//            NodoB<int> *nuevo = new NodoB<int>(datos[i]);
+//            rojinegro->RBinsert(nuevo);
+//        }
+//        break;
+//    }
+//    case 3:{
+//        //2/3
+//        for(int i = 0; i < datos.size(); i++){
+//            NodoDosTres<int>*nuevo = new NodoDosTres<int>(datos[i]);
+//            dosTres->insertar23(nuevo);
+//        }
+//        break;
+//    }
+//    }
 
 }

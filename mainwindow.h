@@ -33,6 +33,7 @@ public:
     void addNode();
     void buscarNodo();
     void deleteNode();
+    void leerArchivo();
 
 private slots:
     void on_pushButton_released();
@@ -44,6 +45,7 @@ private slots:
     void on_comboBox_currentIndexChanged(int index);
 
     void on_botonLeer_clicked();
+
 
 private:
     QGraphicsScene *scene;

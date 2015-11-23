@@ -13,7 +13,6 @@
 
 template <class T>
 class ArbolDosTres {
-
 protected:
   NodoDosTres<T> * raiz = nullptr;
   std::vector<T> nivelesHoja;
@@ -506,6 +505,8 @@ void ArbolDosTres<T>::arreglar(NodoDosTres<T>* nodo) {
   else {
     bool threeKeys = false;
     NodoDosTres<T>* padre = nodo->getPadre();
+
+
     if(checaNodoDos(padre)) {
       NodoDosTres<T>* hermano = new NodoDosTres<T>();
       if(padre->getDerecho() == nodo)
@@ -807,10 +808,16 @@ bool ArbolDosTres<T>::borrar(T info) {
       nodo->setMenor(swapVal);
     }
     else {
-      if(nodo->getMayor() == info) {
-        nodo->borrarMayor();
-        return true;
-      }
+
+        if(nodo->hasHigher()){
+            if(nodo->getMayor() == info) {
+                nodo->borrarMayor();
+                return true;
+            }
+        }
+        else{
+            nodo->borrar(this->escena);
+        }
     }
     leafNode->borrarMenor();
     if(leafNode->sinLlaves()) {
