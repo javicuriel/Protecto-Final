@@ -14,7 +14,7 @@ CC            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefau
 CXX           = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 DEFINES       = -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -mmacosx-version-min=10.7 -Wall -W -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -mmacosx-version-min=10.7 -Wall -W -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -std=c++11 -stdlib=libc++ -mmacosx-version-min=10.7 -Wall -W -fPIC $(DEFINES)
 INCPATH       = -I. -I../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers -I../../../../Qt/5.5/clang_64/lib/QtGui.framework/Headers -I../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/AGL.framework/Headers -I. -I../../../../Qt/5.5/clang_64/mkspecs/macx-clang -F/Users/javiercuriel/Qt/5.5/clang_64/lib
 QMAKE         = /Users/javiercuriel/Qt/5.5/clang_64/bin/qmake
 DEL_FILE      = rm -f
@@ -35,7 +35,7 @@ COMPRESS      = gzip -9f
 DISTNAME      = proyecto-final1.0.0
 DISTDIR = /Users/javiercuriel/Documents/XCODE/Algoritmos/Proyecto-Final/.tmp/proyecto-final1.0.0
 LINK          = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
-LFLAGS        = -headerpad_max_install_names -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -mmacosx-version-min=10.7 -Wl,-rpath,/Users/javiercuriel/Qt/5.5/clang_64/lib
+LFLAGS        = -headerpad_max_install_names -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -stdlib=libc++ -mmacosx-version-min=10.7 -Wl,-rpath,/Users/javiercuriel/Qt/5.5/clang_64/lib
 LIBS          = $(SUBLIBS) -F/Users/javiercuriel/Qt/5.5/clang_64/lib -framework QtWidgets -framework QtGui -framework QtCore -framework DiskArbitration -framework IOKit -framework OpenGL -framework AGL 
 AR            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar cq
 RANLIB        = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib -s
@@ -49,9 +49,11 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = main.cpp \
-		mainwindow.cpp moc_mainwindow.cpp
+		mainwindow.cpp \
+		lectorarchivos.cpp moc_mainwindow.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
+		lectorarchivos.o \
 		moc_mainwindow.o
 DIST          = ../../../../Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/qdevice.pri \
@@ -174,11 +176,13 @@ DIST          = ../../../../Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/features/qt_config.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/macx-clang/qmake.conf \
 		../../../../Qt/5.5/clang_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../../Qt/5.5/clang_64/mkspecs/features/exclusive_builds.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/features/default_pre.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/features/mac/default_pre.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/features/resolve_config.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/features/default_post.prf \
+		../../../../Qt/5.5/clang_64/mkspecs/features/c++11.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/features/mac/sdk.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/features/mac/default_post.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/features/mac/objective_c.prf \
@@ -200,8 +204,12 @@ DIST          = ../../../../Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		BinaryTree.h \
 		avl.h \
 		edge.h \
-		rojinegro.h main.cpp \
-		mainwindow.cpp
+		rojinegro.h \
+		arboldostres.h \
+		nododostres.h \
+		lectorarchivos.h main.cpp \
+		mainwindow.cpp \
+		lectorarchivos.cpp
 QMAKE_TARGET  = proyecto-final
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = proyecto-final.app/Contents/MacOS/proyecto-final
@@ -211,6 +219,8 @@ QMAKE_COMP_QMAKE_OBJECTIVE_CFLAGS = -pipe \
 		-g \
 		-isysroot \
 		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk \
+		-std=c++11 \
+		-stdlib=libc++ \
 		-mmacosx-version-min=10.7 \
 		-Wall \
 		-W
@@ -364,11 +374,13 @@ Makefile: proyecto-final.pro ../../../../Qt/5.5/clang_64/mkspecs/macx-clang/qmak
 		../../../../Qt/5.5/clang_64/mkspecs/features/qt_config.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/macx-clang/qmake.conf \
 		../../../../Qt/5.5/clang_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../../Qt/5.5/clang_64/mkspecs/features/exclusive_builds.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/features/default_pre.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/features/mac/default_pre.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/features/resolve_config.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/features/default_post.prf \
+		../../../../Qt/5.5/clang_64/mkspecs/features/c++11.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/features/mac/sdk.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/features/mac/default_post.prf \
 		../../../../Qt/5.5/clang_64/mkspecs/features/mac/objective_c.prf \
@@ -510,11 +522,13 @@ Makefile: proyecto-final.pro ../../../../Qt/5.5/clang_64/mkspecs/macx-clang/qmak
 ../../../../Qt/5.5/clang_64/mkspecs/features/qt_config.prf:
 ../../../../Qt/5.5/clang_64/mkspecs/macx-clang/qmake.conf:
 ../../../../Qt/5.5/clang_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../../Qt/5.5/clang_64/mkspecs/features/exclusive_builds.prf:
 ../../../../Qt/5.5/clang_64/mkspecs/features/default_pre.prf:
 ../../../../Qt/5.5/clang_64/mkspecs/features/mac/default_pre.prf:
 ../../../../Qt/5.5/clang_64/mkspecs/features/resolve_config.prf:
 ../../../../Qt/5.5/clang_64/mkspecs/features/default_post.prf:
+../../../../Qt/5.5/clang_64/mkspecs/features/c++11.prf:
 ../../../../Qt/5.5/clang_64/mkspecs/features/mac/sdk.prf:
 ../../../../Qt/5.5/clang_64/mkspecs/features/mac/default_post.prf:
 ../../../../Qt/5.5/clang_64/mkspecs/features/mac/objective_c.prf:
@@ -563,8 +577,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.h nodoB.h BinarySTree.h BinaryTree.h avl.h edge.h rojinegro.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp mainwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.h nodoB.h BinarySTree.h BinaryTree.h avl.h edge.h rojinegro.h arboldostres.h nododostres.h lectorarchivos.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp mainwindow.cpp lectorarchivos.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents mainwindow.ui $(DISTDIR)/
 
 
@@ -861,11 +875,14 @@ moc_mainwindow.cpp: ../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qvector.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qxmlstream.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtcoreversion.h \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QDir \
 		nodoB.h \
 		../../../../Qt/5.5/clang_64/lib/QtGui.framework/Headers/QPainter \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QDebug \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/QGraphicsItem \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qgraphicsitem.h \
+		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/QGraphicsWidget \
+		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qgraphicswidget.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QList \
 		edge.h \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/QGraphicsScene \
@@ -874,6 +891,10 @@ moc_mainwindow.cpp: ../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/
 		avl.h \
 		BinarySTree.h \
 		BinaryTree.h \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QPropertyAnimation \
+		arboldostres.h \
+		NodoDosTres.h \
+		lectorarchivos.h \
 		mainwindow.h
 	/Users/javiercuriel/Qt/5.5/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/javiercuriel/Qt/5.5/clang_64/mkspecs/macx-clang -I/Users/javiercuriel/Documents/XCODE/Algoritmos/Proyecto-Final -I/Users/javiercuriel/Qt/5.5/clang_64/lib/QtWidgets.framework/Headers -I/Users/javiercuriel/Qt/5.5/clang_64/lib/QtGui.framework/Headers -I/Users/javiercuriel/Qt/5.5/clang_64/lib/QtCore.framework/Headers -F/Users/javiercuriel/Qt/5.5/clang_64/lib mainwindow.h -o moc_mainwindow.cpp
 
@@ -1165,11 +1186,14 @@ main.o: main.cpp mainwindow.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qvector.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qxmlstream.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtcoreversion.h \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QDir \
 		nodoB.h \
 		../../../../Qt/5.5/clang_64/lib/QtGui.framework/Headers/QPainter \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QDebug \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/QGraphicsItem \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qgraphicsitem.h \
+		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/QGraphicsWidget \
+		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qgraphicswidget.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QList \
 		edge.h \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/QGraphicsScene \
@@ -1178,6 +1202,10 @@ main.o: main.cpp mainwindow.h \
 		avl.h \
 		BinarySTree.h \
 		BinaryTree.h \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QPropertyAnimation \
+		arboldostres.h \
+		NodoDosTres.h \
+		lectorarchivos.h \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/QApplication \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qapplication.h \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/QtWidgets \
@@ -1202,7 +1230,6 @@ main.o: main.cpp mainwindow.h \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qgraphicssceneevent.h \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qgraphicstransform.h \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qgraphicsview.h \
-		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qgraphicswidget.h \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qabstractitemdelegate.h \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qabstractitemview.h \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qcolumnview.h \
@@ -1573,11 +1600,14 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qvector.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qxmlstream.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/qtcoreversion.h \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QDir \
 		nodoB.h \
 		../../../../Qt/5.5/clang_64/lib/QtGui.framework/Headers/QPainter \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QDebug \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/QGraphicsItem \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qgraphicsitem.h \
+		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/QGraphicsWidget \
+		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/qgraphicswidget.h \
 		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QList \
 		edge.h \
 		../../../../Qt/5.5/clang_64/lib/QtWidgets.framework/Headers/QGraphicsScene \
@@ -1586,8 +1616,15 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		avl.h \
 		BinarySTree.h \
 		BinaryTree.h \
+		../../../../Qt/5.5/clang_64/lib/QtCore.framework/Headers/QPropertyAnimation \
+		arboldostres.h \
+		NodoDosTres.h \
+		lectorarchivos.h \
 		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
+
+lectorarchivos.o: lectorarchivos.cpp lectorarchivos.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o lectorarchivos.o lectorarchivos.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

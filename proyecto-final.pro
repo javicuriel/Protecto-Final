@@ -14,7 +14,8 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    lectorarchivos.cpp
 
 HEADERS  += mainwindow.h \
     nodoB.h \
@@ -22,7 +23,12 @@ HEADERS  += mainwindow.h \
     BinaryTree.h \
     avl.h \
     edge.h \
-    rojinegro.h
+    rojinegro.h \
+    arboldostres.h \
+    nododostres.h \
+    lectorarchivos.h
 
 FORMS    += mainwindow.ui
+CONFIG += c++11
+
 

@@ -23,7 +23,7 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>240</x>
       <y>10</y>
       <width>91</width>
       <height>21</height>
@@ -52,14 +52,14 @@
    <widget class="QTextEdit" name="insNum">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>130</x>
       <y>10</y>
       <width>101</width>
       <height>21</height>
      </rect>
     </property>
     <property name="inputMethodHints">
-     <set>Qt::ImhMultiLine</set>
+     <set>Qt::ImhDigitsOnly|Qt::ImhMultiLine</set>
     </property>
     <property name="verticalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -78,14 +78,14 @@ p, li { white-space: pre-wrap; }
    <widget class="QTextEdit" name="buscNum">
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>350</x>
       <y>10</y>
       <width>101</width>
       <height>21</height>
      </rect>
     </property>
     <property name="inputMethodHints">
-     <set>Qt::ImhMultiLine</set>
+     <set>Qt::ImhDigitsOnly|Qt::ImhMultiLine</set>
     </property>
     <property name="verticalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -104,7 +104,7 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="buscar">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>460</x>
       <y>10</y>
       <width>91</width>
       <height>21</height>
@@ -117,14 +117,14 @@ p, li { white-space: pre-wrap; }
    <widget class="QTextEdit" name="borrarNum">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>570</x>
       <y>10</y>
       <width>101</width>
       <height>21</height>
      </rect>
     </property>
     <property name="inputMethodHints">
-     <set>Qt::ImhMultiLine</set>
+     <set>Qt::ImhDigitsOnly|Qt::ImhMultiLine</set>
     </property>
     <property name="verticalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -143,7 +143,7 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="borrar">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>680</x>
       <y>10</y>
       <width>91</width>
       <height>21</height>
@@ -156,11 +156,14 @@ p, li { white-space: pre-wrap; }
    <widget class="QComboBox" name="comboBox">
     <property name="geometry">
      <rect>
-      <x>670</x>
-      <y>10</y>
-      <width>104</width>
+      <x>0</x>
+      <y>8</y>
+      <width>121</width>
       <height>26</height>
      </rect>
+    </property>
+    <property name="currentText">
+     <string>-</string>
     </property>
     <item>
      <property name="text">
@@ -182,6 +185,48 @@ p, li { white-space: pre-wrap; }
       <string>2/3</string>
      </property>
     </item>
+   </widget>
+   <widget class="QPushButton" name="botonLeer">
+    <property name="geometry">
+     <rect>
+      <x>900</x>
+      <y>10</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Leer archivo</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="boxArchivo">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>10</y>
+      <width>101</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="inputMethodHints">
+     <set>Qt::ImhMultiLine</set>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="html">
+     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.SF NS Text'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="placeholderText">
+     <string>ejemplo.txt</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

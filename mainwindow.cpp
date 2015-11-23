@@ -22,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
     avl->setScene(scene);
     rojinegro = new Rojinegro<int>();
     rojinegro->setScene(scene);
+    dosTres = new ArbolDosTres<int>();
+    dosTres->setScene(scene);
 
 
 }
@@ -57,7 +59,8 @@ void MainWindow::addNode(){
         }
         case 3:{
             //2/3
-            //dostres->insert(num);
+            NodoDosTres<int>*nuevo = new NodoDosTres<int>(num);
+            dosTres->insertar23(nuevo);
             break;
         }
         }
@@ -112,7 +115,10 @@ void MainWindow::buscarNodo(){
         }
         case 3:{
             //2/3
-            //dostres->buscar(num);
+            NodoDosTres<int> * buscar = dosTres->buscarNodo(num,dosTres->getRaiz());
+            if(buscar)
+                buscar->encontrado(true);
+                dosTres->bfs();
             break;
         }
         }
@@ -173,18 +179,78 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
     switch (currentArbol){
     case 1:
         avl->clear();
+
+        scene->clear();
+
+
         break;
     case 2:
         //Rojinegro
         rojinegro->clear();
+
+        scene->clear();
+
+
         break;
     case 3:
         //2/3
-        //dostres->clear();
+        dosTres->clear();
+        scene->clear();
+
         break;
     }
     currentArbol = index;
 
     //avl->clear();
     std::cout << index << endl;
+}
+
+void MainWindow::on_botonLeer_clicked()
+{
+    QDir directorio;
+    QString dir = directorio.homePath();
+    std::string home = dir.toStdString();
+
+    QString nomArchivo = ui->boxArchivo->toPlainText();
+    std::string nombreArchivo = nomArchivo.toStdString();
+
+    std::string ruta = "";
+
+    if (nombreArchivo.rfind(".txt") != -1) {
+        ruta = home + "/Desktop/" + nombreArchivo;
+    }
+    else {
+        ruta = home + "/Desktop/" + nombreArchivo + ".txt";
+    }
+
+    LectorArchivos lector;
+    std::vector<int> datos = lector.leer(ruta);
+
+    switch (currentArbol){
+    case 1:{
+        // Avl
+        for(int i = 0; i < datos.size(); i++){
+            NodoB<int> *nuevo = new NodoB<int>(datos[i]);
+            avl->insert(nuevo);
+        }
+        break;
+    }
+    case 2:{
+        //Rojinegro
+        for(int i = 0; i < datos.size(); i++){
+            NodoB<int> *nuevo = new NodoB<int>(datos[i]);
+            rojinegro->RBinsert(nuevo);
+        }
+        break;
+    }
+    case 3:{
+        //2/3
+        for(int i = 0; i < datos.size(); i++){
+            NodoDosTres<int>*nuevo = new NodoDosTres<int>(datos[i]);
+            dosTres->insertar23(nuevo);
+        }
+        break;
+    }
+    }
+
 }

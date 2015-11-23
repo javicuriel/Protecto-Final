@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QDebug>
 #include <QGraphicsItem>
+#include <QGraphicsWidget>
 #include <iostream>
 #include <QList>
 #include "edge.h"
@@ -14,7 +15,7 @@ template <class T>
 std::ostream& operator<<(std::ostream&, NodoB<T>&);
 
 template <class T>
-class NodoB: public QGraphicsItem{
+class NodoB: public QGraphicsWidget{
     T info;
     NodoB<T> * derecho;
     NodoB<T> * izquierdo;
@@ -22,9 +23,9 @@ class NodoB: public QGraphicsItem{
     QList<Edge<T> *> edgeList;
 
 
-    bool pressed;
+
     int index;
-    double x,y;
+    qreal x = 0.0, y = 0.0;
     bool enc;
 
     /***************************************AVL**********************************************/
@@ -41,17 +42,18 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
 public:
+    bool pressed;
     NodoB();
     NodoB(T info);
 
     void borrar(QGraphicsScene *scene);
     ~NodoB();
 
-    void setCoordinates(int x,int y);
-    void setX(int x);
-    void setY(int y);
-    int getX();
-    int getY();
+    void setCoordinates(qreal x,qreal y);
+    void setX(qreal x);
+    void setY(qreal y);
+    qreal getX();
+    qreal getY();
 
     void encontrado(bool x);
 
@@ -141,7 +143,7 @@ QList<Edge<T> *> NodoB<T>::edges() const
 
 
 template <class T>
-void NodoB<T>::setCoordinates(int x,int y){
+void NodoB<T>::setCoordinates(qreal x,qreal y){
     this->x = x;
     this->y = y;
     setPos(x,y);
@@ -149,22 +151,22 @@ void NodoB<T>::setCoordinates(int x,int y){
 
 
 template <class T>
-void NodoB<T>::setX(int x){
+void NodoB<T>::setX(qreal x){
     this->x = x;
 }
 
 template <class T>
-void NodoB<T>::setY(int y){
+void NodoB<T>::setY(qreal y){
     this->y = y;
 }
 
 template <class T>
-int NodoB<T>::getX(){
+qreal NodoB<T>::getX(){
     return x;
 }
 
 template <class T>
-int NodoB<T>::getY(){
+qreal NodoB<T>::getY(){
     return y;
 }
 
@@ -181,13 +183,12 @@ void NodoB<T>::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
 
     QString disp = QString::number(info);
-    QRectF chan = QRectF(-15.5, -15.5, 34, 34);
 
     painter->setRenderHint(QPainter::Antialiasing);
     painter->setRenderHint(QPainter::HighQualityAntialiasing);
 
     if (enc){
-        painter->setPen(Qt::yellow);
+        painter->setPen(Qt::green);
         if(this->getColor() == "negro"){
             painter->setBrush(QBrush(Qt::black));
         }

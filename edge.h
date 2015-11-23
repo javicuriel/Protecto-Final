@@ -18,10 +18,11 @@ static double TwoPi = 2.0 * Pi;
 
 
 template <class T>
-class Edge : public QGraphicsItem
-{
+class Edge : public QGraphicsItem{
+    bool dostres = false;
 public:
     Edge(NodoB<T> *hijoNodo, NodoB<T> *padreNodo);
+    Edge(NodoB<T> *hijoNodo, NodoB<T> *padreNodo,bool dostres);
 
     NodoB<T> *getHijo() const;
     NodoB<T> *getPadre() const;
@@ -52,6 +53,19 @@ template <class T>
 void Edge<T>::removeScene(QGraphicsScene * scene){
     scene->removeItem(this);
 
+}
+
+template <class T>
+Edge<T>::Edge(NodoB<T> *hijoNodo, NodoB<T> *padreNodo,bool dostres)
+    : arrowSize(10)
+{
+
+    setAcceptedMouseButtons(0);
+    hijo = hijoNodo;
+    padre = padreNodo;
+    hijo->addEdge(this);
+    padre->addEdge(this);
+    this->dostres = dostres;
 }
 
 template <class T>
@@ -94,13 +108,29 @@ void Edge<T>::adjust()
     if (!hijo || !padre)
         return;
 
-    QLineF line(mapFromItem(hijo, 0, 0), mapFromItem(padre, 0, 6));
+    //QLineF line(mapFromItem(hijo, 0, 0), mapFromItem(padre, 0, 0));
+    QLineF line;
+    if(dostres)
+        line.setPoints(mapFromItem(hijo, 10, -15), mapFromItem(padre, 6, 15));
+    else
+       line.setPoints(mapFromItem(hijo, 0, 0), mapFromItem(padre, 0, 0));
     qreal length = line.length();
 
     prepareGeometryChange();
 
     if (length > qreal(20.)) {
-        QPointF edgeOffset((line.dx() * 10) / length, (line.dy() * 10) / length);
+        //QPointF edgeOffset((line.dx() * 16) / length, (line.dy() * 16) / length);
+        QPointF edgeOffset;
+        if(dostres){
+            edgeOffset.setX((line.dx() * 1) / length);
+            edgeOffset.setY((line.dy() * 1) / length);
+
+        }
+        else{
+            edgeOffset.setX((line.dx() * 16) / length);
+            edgeOffset.setY((line.dy() * 16) / length);
+        }
+
         hijoPunto = line.p1() + edgeOffset;
         padrePunto = line.p2() - edgeOffset;
     } else {
@@ -128,7 +158,6 @@ void Edge<T>::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget
 {
     if (!hijo || !padre)
         return;
-
     QLineF line(hijoPunto, padrePunto);
     if (qFuzzyCompare(line.length(), qreal(0.)))
         return;

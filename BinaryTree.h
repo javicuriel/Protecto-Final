@@ -1,6 +1,7 @@
 #include "nodoB.h"
 #include <iomanip>
 #include <iostream>
+#include <QPropertyAnimation>
 #include <QGraphicsScene>
 
 template <class T>
@@ -13,6 +14,9 @@ public:
     BinaryTree() {}
     virtual ~BinaryTree();
 
+
+    void bfs();
+    void animacionMov(qreal & xInicial, qreal & yInicial, qreal & xFinal, qreal & yFinal, NodoB<T> * nodo);
 
     void setScene(QGraphicsScene *x);
     bool empty();
@@ -97,6 +101,7 @@ template <class T>
 void BinaryTree<T>::clear()
 {
     clear(root);
+    scene->update();
 }
 
 template <class T>
@@ -360,6 +365,97 @@ template <class T>
 void BinaryTree<T>::setScene(QGraphicsScene *x){
     scene = x;
 }
+
+template <class T>
+void BinaryTree<T>::bfs() {
+    std::vector<NodoB<T> *> cola;
+    int nivel = 0; //nivel del nodo
+    int index = 0; //index del nodo
+    qreal xInicial = 0.0;
+    qreal yInicial = 0.0;
+
+    cola.push_back(this->root);
+
+    while(!cola.empty()){
+        NodoB<T> * temp = cola[0];
+        xInicial = temp->getX();
+        yInicial = temp->getY();
+
+        temp->borrarEdges(this->scene);
+        nivel = this->getLevel(temp);//se obtiene el nivel del nodo
+        index = temp->getIndex();//se obtiene el indice del nodo
+
+        //parte de arriba de la formula para obtener la posicion en x.
+        //index * widthOfWindow
+
+        qreal numerador = index * (this->scene->width()+100);
+
+        //parte de abajo de la formula para obtener la posicion en x.
+        //(2^nivel) + 1
+        qreal denominador = pow(2.0, double(nivel)) + 1;
+        //division de la parte de arriba entre la de abajo para obtener
+        //la posicion en x que va a llevar el nodo
+        qreal x = numerador / denominador;
+
+        //altura que va a llevar el nodo
+        qreal y = 0.0;
+
+        //cuando existe un padre entra al if
+        if (temp->getPadre() != NULL){
+            //temp->getPadre()->borrarEdges();
+            //se toma la altura del padre
+            qreal altura = temp->getPadre()->getY();
+            //se le suma 50 a la altura anterior y se le asigna al nodo
+            y = altura + 50;
+            this->scene->addItem(new Edge<T>(temp, temp->getPadre()));
+        }
+
+        //se asignan las coordenadas del nodo para que se dibuje correctamente
+        temp->setCoordinates(x,y);
+
+        animacionMov(xInicial, yInicial, x, y, temp);
+
+        cola.erase(cola.begin());
+
+        if(temp->getIzquierdo()!= NULL){
+            //temp->getIzquierdo()->borrarEdges();
+            cola.push_back(temp->getIzquierdo());
+            //se agarra el index del padre
+            int index = temp->getIndex();
+            //se calcula y se asigna el index que le corresponde al nodo izquierdo
+            temp->getIzquierdo()->setIndex((index * 2) - 1);
+
+
+        }
+        if(temp->getDerecho()!= NULL){
+            //temp->getDerecho()->borrarEdges();
+            cola.push_back(temp->getDerecho());
+            //se agarra el index del padre
+            int index = temp->getIndex();
+            //se calcula y se asigna el index que le corresponde al nodo derecho
+            temp->getDerecho()->setIndex(index * 2);
+
+        }
+
+
+    }
+
+}
+
+template <class T>
+void BinaryTree<T>::animacionMov(qreal & xInicial, qreal & yInicial, qreal & xFinal, qreal & yFinal, NodoB<T> * nodo)
+{
+    // Aqui crea la animación
+    QPointF puntoA = QPointF(xInicial, yInicial);
+    QPointF puntoB = QPointF(xFinal, yFinal);
+
+    QPropertyAnimation * animation = new QPropertyAnimation(nodo, "pos");
+    animation->setDuration(500); //2 Segundos
+    animation->setStartValue(puntoA);
+    animation->setEndValue(puntoB);
+    animation->start();
+}
+
 
 
 

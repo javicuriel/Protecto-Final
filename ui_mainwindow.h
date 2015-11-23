@@ -38,6 +38,8 @@ public:
     QTextEdit *borrarNum;
     QPushButton *borrar;
     QComboBox *comboBox;
+    QPushButton *botonLeer;
+    QTextEdit *boxArchivo;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -56,7 +58,7 @@ public:
         centralWidget->setSizePolicy(sizePolicy);
         pushButton = new QPushButton(centralWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(120, 10, 91, 21));
+        pushButton->setGeometry(QRect(240, 10, 91, 21));
         graphicsView = new QGraphicsView(centralWidget);
         graphicsView->setObjectName(QStringLiteral("graphicsView"));
         graphicsView->setGeometry(QRect(-5, 41, 1000, 800));
@@ -67,31 +69,40 @@ public:
         graphicsView->setSizePolicy(sizePolicy1);
         insNum = new QTextEdit(centralWidget);
         insNum->setObjectName(QStringLiteral("insNum"));
-        insNum->setGeometry(QRect(10, 10, 101, 21));
-        insNum->setInputMethodHints(Qt::ImhMultiLine);
+        insNum->setGeometry(QRect(130, 10, 101, 21));
+        insNum->setInputMethodHints(Qt::ImhDigitsOnly|Qt::ImhMultiLine);
         insNum->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         insNum->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         buscNum = new QTextEdit(centralWidget);
         buscNum->setObjectName(QStringLiteral("buscNum"));
-        buscNum->setGeometry(QRect(230, 10, 101, 21));
-        buscNum->setInputMethodHints(Qt::ImhMultiLine);
+        buscNum->setGeometry(QRect(350, 10, 101, 21));
+        buscNum->setInputMethodHints(Qt::ImhDigitsOnly|Qt::ImhMultiLine);
         buscNum->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         buscNum->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         buscar = new QPushButton(centralWidget);
         buscar->setObjectName(QStringLiteral("buscar"));
-        buscar->setGeometry(QRect(340, 10, 91, 21));
+        buscar->setGeometry(QRect(460, 10, 91, 21));
         borrarNum = new QTextEdit(centralWidget);
         borrarNum->setObjectName(QStringLiteral("borrarNum"));
-        borrarNum->setGeometry(QRect(450, 10, 101, 21));
-        borrarNum->setInputMethodHints(Qt::ImhMultiLine);
+        borrarNum->setGeometry(QRect(570, 10, 101, 21));
+        borrarNum->setInputMethodHints(Qt::ImhDigitsOnly|Qt::ImhMultiLine);
         borrarNum->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         borrarNum->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         borrar = new QPushButton(centralWidget);
         borrar->setObjectName(QStringLiteral("borrar"));
-        borrar->setGeometry(QRect(560, 10, 91, 21));
+        borrar->setGeometry(QRect(680, 10, 91, 21));
         comboBox = new QComboBox(centralWidget);
         comboBox->setObjectName(QStringLiteral("comboBox"));
-        comboBox->setGeometry(QRect(670, 10, 104, 26));
+        comboBox->setGeometry(QRect(0, 8, 121, 26));
+        botonLeer = new QPushButton(centralWidget);
+        botonLeer->setObjectName(QStringLiteral("botonLeer"));
+        botonLeer->setGeometry(QRect(900, 10, 91, 21));
+        boxArchivo = new QTextEdit(centralWidget);
+        boxArchivo->setObjectName(QStringLiteral("boxArchivo"));
+        boxArchivo->setGeometry(QRect(790, 10, 101, 25));
+        boxArchivo->setInputMethodHints(Qt::ImhMultiLine);
+        boxArchivo->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        boxArchivo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -137,6 +148,14 @@ public:
          << QApplication::translate("MainWindow", "Rojinegro", 0)
          << QApplication::translate("MainWindow", "2/3", 0)
         );
+        comboBox->setCurrentText(QApplication::translate("MainWindow", "-", 0));
+        botonLeer->setText(QApplication::translate("MainWindow", "Leer archivo", 0));
+        boxArchivo->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'.SF NS Text'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", 0));
+        boxArchivo->setPlaceholderText(QApplication::translate("MainWindow", "ejemplo.txt", 0));
     } // retranslateUi
 
 };
